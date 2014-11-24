@@ -39,12 +39,12 @@ private:
     int timesGrown;     // Holds number of times the vector has been grown
    
     /* Functions */
-    void memError();				// Called in the event of memory allocation error
-    void subError();				// Called in the event of subscript access error
-	bool growVector();				// Function increases the size of the current vector
-	bool isValidSubscript(int);		// Function returns whether subscript is valid for current vector
-	int getNewAllocationSize();		// Function returns new vector capacity based on exponential  
-									//		algorithm to maintain efficiency over standard array
+    void memError();						// Called in the event of memory allocation error
+    void subError() const;					// Called in the event of subscript access error
+	bool growVector();						// Function increases the size of the current vector
+	bool isValidSubscript(int) const;		// Function returns whether subscript is valid for current vector
+	int getNewAllocationSize() const;		// Function returns new vector capacity based on exponential  
+											//		algorithm to maintain efficiency over standard array
 
 public:
     
@@ -90,7 +90,7 @@ public:
 			{ return aPtr[0]; }
 
 		T back() const					// Returns the last element in vector
-			{ return aPtr[(arraySize - 1)]; }
+			{ return aPtr[arraySize - 1]; }
 
         
 		/* MODIFIERS */
@@ -111,8 +111,9 @@ public:
 template <class T>
 SimpleVector<T>::SimpleVector(int size)
 {
-	// Set initial size
-	arraySize = size;
+	// Set capacity of current vector
+	vectorCapacity = size;
+	arraySize = 0;
 
 	// Attempt memory allocation
 	try
@@ -126,9 +127,6 @@ SimpleVector<T>::SimpleVector(int size)
 		// Call function to handle memory error
 		memError();
 	}
-
-	// Set capacity of current vector
-	vectorCapacity = arraySize;
 
 	// Initialize the array as NULL
 	for (int index = 0; index < arraySize; index++)
@@ -149,7 +147,7 @@ template <class T>
 SimpleVector<T>::SimpleVector(const SimpleVector &origVec)
 {
 	// Copy the original vector's size
-	this->arraySize = origVec.arraySize;
+	arraySize = origVec.size();
 
 	// Allocate memory for new array at size of original
 	aPtr = new T[arraySize];
@@ -162,12 +160,12 @@ SimpleVector<T>::SimpleVector(const SimpleVector &origVec)
 	}
 
 	// Set capacity of current vector
-	capacity = arraySize;
+	vectorCapacity = arraySize;
 
 	// Loop to copy elements of originalVector to new vector
 	for (int index = 0; index < arraySize; index++)
 	{
-		*(aPtr + count) = *(origVec.aPtr + count);
+		aPtr[index] = origVec.getElement(index);
 	}
 }
 
@@ -208,7 +206,7 @@ void SimpleVector<T>::memError()
 // ********************************************************** 
 
 template <class T>
-void SimpleVector<T>::subError()
+void SimpleVector<T>::subError() const
 {
 	cout << "ERROR: Subscript out of range." << endl;
 	exit(EXIT_FAILURE);
@@ -222,15 +220,15 @@ void SimpleVector<T>::subError()
 // ************************************************************** 
 
 template <class T>
-int SimpleVector<T>::getNewAllocationSize()
+int SimpleVector<T>::getNewAllocationSize() const
 {
 	int newSize = 0;		// Holds new allocation size
 
 	// Set new vector size using simple double size algorithm
 	// with limit at MAX_EXPANSION_AMOUNT
 	newSize =
-		(arraySize < MAX_EXPANSION_AMOUNT) ?
-		(2 * arraySize) | (arraySize + MAX_EXPANSION_AMOUNT);
+		((vectorCapacity < MAX_EXPANSION_AMOUNT) ?
+		(2 * vectorCapacity) : (vectorCapacity + MAX_EXPANSION_AMOUNT));
 	return newSize;
 }
 
@@ -240,30 +238,30 @@ int SimpleVector<T>::getNewAllocationSize()
 // ********************************************************** 
 
 template <class T>
-bool SimpleVector<T>::isValidSubscript(int sub)
+bool SimpleVector<T>::isValidSubscript(int sub) const
 {
 	// Decision structure to verify element is within bounds
-	return (sub > 0 && sub < arraySize);
+	return (sub >= 0 && sub < vectorCapacity);
 }
 
 template <class T>
 bool SimpleVector<T>::growVector()
 {
-	if (aPtr = nullptr || (arraySize == 0 && capacity == 0))
+	if (aPtr == nullptr || (arraySize == 0 && vectorCapacity == 0))
 	{
 		aPtr = new T[5];
-		this->arraySize = 0;
-		this->capacity = 5;
+		arraySize = 0;
+		vectorCapacity = 5;
 		return true;
 	}
-	else if (arraySize == 0 && capacity != 0)
+	else if (arraySize == 0 && vectorCapacity != 0)
 	{
 		return false;
 	}
 	else
 	{
 		// Copy elements to placeholder
-		SimpleVector<T> temp = new SimpleVector(this);
+		SimpleVector<T> temp(*this);
 
 		// Delete stored data
 		delete[] aPtr;
@@ -275,13 +273,16 @@ bool SimpleVector<T>::growVector()
 		aPtr = new T[newAllocation];
 
 		// Set new capacity
-		this->capacity = newAllocation;
+		vectorCapacity = newAllocation;
+
+		// Reset array size
+		arraySize = 0;
 
 		// Copy stored elements to new array
 		for (int index = 0; index < temp.size(); index++)
 		{
 			aPtr[index] = temp[index];
-			this->arraySize++;
+			arraySize++;
 		}
 
 		return true;
@@ -326,10 +327,15 @@ T& SimpleVector<T>::operator[] (int sub)
 	if (!isValidSubscript(sub))
 	{
 		subError();
-		return NULL;
 	}
 	else
 	{
+		// Increment array size if necessary
+		if (sub >= arraySize) 
+		{
+			arraySize++;
+		}
+
 		// Return the editable called element
 		return *(aPtr + sub);
 	}
@@ -344,7 +350,7 @@ T& SimpleVector<T>::operator[] (int sub)
 template <class T>
 T SimpleVector<T>::getElement(int position) const
 {
-	return this->operator[] (position);
+	return aPtr[position];
 }
 
 //***********************************************************
@@ -356,7 +362,7 @@ template <class T>
 bool SimpleVector<T>::push_back(T newElement)
 {
 	// Check if vector has proper capacity
-	if (capacity <= arraySize)
+	if (vectorCapacity == arraySize)
 	{
 		// Attempt to grow vector
 		if (!growVector())
@@ -365,17 +371,15 @@ bool SimpleVector<T>::push_back(T newElement)
 			return false;
 		}
 	}
-	else
-	{
-		// Store new element at end of vector
-		*(aPtr + arraySize - 1) = newElement;
 
-		// Increment arraySize variable
-		arraySize++;
+	// Increment arraySize variable
+	arraySize++;
 
-		// Indicate successful operation
-		return true;
-	}
+	// Store new element at end of vector
+	aPtr[arraySize - 1] = newElement;
+
+	// Indicate successful operation
+	return true;
 }
 
 //************************************************************
@@ -386,7 +390,7 @@ template <class T>
 bool SimpleVector<T>::pop_back()
 {
 	// Delete last element and decrement arraySize operator
-	(aPtr + (--arraySize)) = NULL;
+	aPtr[--arraySize] = NULL;
 
 	// Indicate successful operation
 	return true;

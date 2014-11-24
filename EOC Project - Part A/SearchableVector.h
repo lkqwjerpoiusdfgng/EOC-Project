@@ -22,7 +22,6 @@
 #ifndef SEARCHABLEVECTOR_H
 #define SEARCHABLEVECTOR_H
 
-#include <algorithm>	// std::sort
 #include "SimpleVector.h"
 
 template <class T>
@@ -41,14 +40,16 @@ public:
     /* Constructors */
 
         // Default constructor
-        SearchableVector() : SimpleVector<T>();
+        SearchableVector() : SimpleVector<T>()
+			{ }
 
         // Parameterized constructor
 		SearchableVector(int size) : SimpleVector<T>(size)
 			{ }
 
         // Copy constructor
-        SearchableVector(const SearchableVector &);
+		SearchableVector(const SearchableVector &)
+			{ }
 
     /* Destructor */
 
@@ -70,21 +71,25 @@ void SearchableVector<T>::sortData()
 	// damage to original data
 	sorted = new SimpleVector<T>(this);
 
+	// Temp variable to hold value to swap
+	T temp;
+
 	// Sort data
-	std::sort(sorted[0], sorted[sorted.size() - 1]);
+	for (int index = 0; index < sorted.size(); index++)
+	{
+		for (int sub = 0; sub < sorted.size(); sub++)
+		{
+			
+		}
+	}
 }
 
 /* Destructor */
 
 template <class T>
 SearchableVector<T>::~SearchableVector()
-{
-	// Check if memory has been allocated
-	if (sorted.capacity > 0)
-	{
-		// Deallocate memory
-		delete[] sorted;
-	}
+{ 
+
 }
 
 /* Member functions */

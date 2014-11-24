@@ -21,6 +21,7 @@
 
 #include "SearchableVector.h"	// For SearchableVector class
 #include "SimpleVector.h"		// For SimpleVector class
+#include <stdlib.h>				// For exit, EXIT_SUCCESS
 
 #include <iostream>				// For I/O operations
 using namespace std;
@@ -76,7 +77,7 @@ void showMenu()
 			<< "1. Demonstrate SimpleVector class \n"
 			<< "2. Demonstrate SearchableVector class \n"
 			<< "3. Demonstrate both Simple and Searchable vector classes \n"
-			<< "4. Display program information"
+			<< "4. Display program information\n"
 			<< "5. Exit the program \n\n"
 			<< "Your selection: ";
 
@@ -129,28 +130,157 @@ void testSimpleVector()
 		 << "to the vectors and demonstrate the different functions that are possible.\n\n\n";
 
 	// Create SimpleVector for int elements
-	SimpleVector<int> simVectorA(10); // = new SimpleVector<int>(10);
+	SimpleVector<int> simVectorA(10);
 
 	// Output creation confirmation
 	cout << "New SimpleVector<int> created, simVectorA.\n";
 	
 	// Create SimpleVector for double elements
-//	SimpleVector<double> *simVectorB = new SimpleVector<double>();
+	SimpleVector<double> simVectorB(15);
 
 	// Output creation confirmation
-	cout << "New SimpleVector<double> created simVectorB.\n";
+	cout << "New SimpleVector<double> created simVectorB.\n\n";
 
 	// Fill arrays with data
-	cout << "We will now fill the arrays with data.";
+	cout << "We will now fill the arrays with data.\n";
 
-//	for (int index = 0, value = 1; index < 10; index++, value++)
-//	{
-//		simVectorA[index] = value;
-//	}
+	double val2 = 1.11;	// To hold values for double vector
+
+	for (int index = 0, val1 = 1; index < 10; index++, val1++)
+	{
+		simVectorA[index] = val1;
+		cout << "simVectorA[" << index << "]: " << simVectorA[index] << endl;
+
+		simVectorB[index] = val2;
+		cout << "simVectorB[" << index << "]: " << simVectorB[index] << endl;
+
+		val2 += 1.11;
+	}
+
+	// Pause for keypress
+	pressEnterToContinue();
+
+	// Test accessors for simVectorA
+	cout << "\n\nWe will now test the accessor functions for each of the vectors,\n"
+		 << "starting with simVectorA.\n\n";
+
+	cout << "simVectorA.size(): " << simVectorA.size() << ", expected value is 10.\n"
+		 << "simVectorA.capacity(): " << simVectorA.capacity() << ", expected value is 10.\n"
+		 << "simVectorA.front(): " << simVectorA.front() << ", expected value is 1.\n"
+		 << "simVectorA.back(): " << simVectorA.back() << ", expected value is 10.\n"
+		 << "simVectorA.getElement(5): " << simVectorA.getElement(5) << ", expected value is 6.\n\n";
+		 
+	// Pause for keypress
+	pressEnterToContinue();
+
+	// Test accessors for simVectorB
+	cout << "simVectorB.size(): " << simVectorB.size() << ", expected value is 10.\n"
+		 << "simVectorB.capacity(): " << simVectorB.capacity() << ", expected value is 15.\n"
+		 << "simVectorB.front(): " << simVectorB.front() << ", expected value is 1.11.\n"
+		 << "simVectorB.back(): " << simVectorB.back() << ", expected value is 11.1.\n"
+		 << "simVectorB.getElement(5): " << simVectorB.getElement(5) << ", expected value is 6.66.\n\n";
+
+	// Pause for keypress
+	pressEnterToContinue();
+
+	// Test subscript operators
+	cout << "We will now test the subscript operators for the vectors.\n\n"
+		 << "simVectorA[3]: " << simVectorA[3] << " , the expected value is 4.\n"
+		 << "simVectorB[3]: " << simVectorB[3] << " , the expected value is 4.44.\n\n";
+
+	simVectorA[3] = simVectorA[5];
+
+	cout << "simVectorA[3] = simVectorA[5]\n"
+		 << "simVectorA[3]: " << simVectorA[3] << ", the expected value is 6.\n\n";
+
+	simVectorB[3] = 1294.32;
+
+	cout << "simVectorB[3] = 1294.32\n"
+		 << "simVectorB[3]: " << simVectorB[3] << ", the expected value is 1294.32.\n\n";
+
+	// Pause for keypress
+	pressEnterToContinue();
+
+	// Test Modifiers
+	cout << "We will now test the modifier functions push_back and pop_back.\n"
+		 << "simVectorA.size(): " << simVectorA.size() << "\n"
+		 << "simVectorA.capacity(): " << simVectorA.capacity() << "\n"
+		 << "simVectorA.back(): " << simVectorA.back() << "\n\n"
+		 << "simVectorA.push_back(24)\n\n";
+
+	simVectorA.push_back(24);
+
+	cout << "simVectorA.size(): " << simVectorA.size() << "\n"
+		<< "simVectorA.capacity(): " << simVectorA.capacity() << "\n"
+		<< "simVectorA.back(): " << simVectorA.back() << "\n\n";
+
+	// Pause for keypress
+	pressEnterToContinue();
+
+	cout << "simVectorB.size(): " << simVectorB.size() << "\n"
+		 << "simVectorB.capacity(): " << simVectorB.capacity() << "\n"
+		 << "simVectorB.back(): " << simVectorB.back() << "\n\n"
+		 << "simVectorB.push_back(54.32)\n\n";
+
+	simVectorB.push_back(54.32);
+
+	cout << "simVectorB.size(): " << simVectorB.size() << "\n"
+		<< "simVectorB.capacity(): " << simVectorB.capacity() << "\n"
+		<< "simVectorB.back(): " << simVectorB.back() << "\n\n";
+
+	cout << "simVectorB.pop_back()\n\n";
+
+	simVectorB.pop_back();
+
+	cout << "simVectorB.size(): " << simVectorB.size() << "\n"
+		 << "simVectorB.capacity(): " << simVectorB.capacity() << "\n"
+	     << "simVectorB.back(): " << simVectorB.back() << "\n\n";
+
+
+	// Pause for keypress
+	pressEnterToContinue();
+
+	cout << "We have now tested all functions for the SimpleVector class.\n";
 }
 
 void testSearchableVector()
 {
+	cout << "We will now test the searchable vector class. We'll start by\n"
+		<< "creating a new serachable vector and populating it with data.\n\n";
+
+	// Create new searchable vector
+	SearchableVector<int> vector(10);
+
+	cout << "SearchableVector<int> vector(10)\n\n"
+		<< "\nvector[0] = 26;"
+		<< "\nvector[1] = 32;"
+		<< "\nvector[2] = 1;"
+		<< "\nvector[3] = 1983;"
+		<< "\nvector[4] = 2;"
+		<< "\nvector[5] = 0;"
+		<< "\nvector[6] = 12;"
+		<< "\nvector[7] = 99;"
+		<< "\nvector[8] = 31;"
+		<< "\nvector[9] = 21;\n\n";
+
+	// Populate with values
+	vector[0] = 26;
+	vector[1] = 32;
+	vector[2] = 1;
+	vector[3] = 1983;
+	vector[4] = 2;
+	vector[5] = 0;
+	vector[6] = 12;
+	vector[7] = 99;
+	vector[8] = 31;
+	vector[9] = 21;
+
+	// Attempt to locate value 12
+	cout << "We will now run a search for value 12 within this vector.\n\n";
+
+	cout << "vector.doesExist(12): " << vector.doesExist(12) << endl;
+
+	cout << "We have now finished testing the searchable vector.";
 
 }
 

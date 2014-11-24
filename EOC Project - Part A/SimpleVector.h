@@ -27,7 +27,7 @@ class SimpleVector
 private:
     
     /* Variables */ 
-    T *aptr;            // Points to the array that is holding data
+    T *aPtr;            // Points to the array that is holding data
     int arraySize;      // Holds size of current vector
 	int capacity;		// Holds capacity of current vector
     int timesGrown;     // Holds number of times the vector has been grown
@@ -36,19 +36,20 @@ private:
     void memError();				// Called in the event of memory allocation error
     void subError();				// Called in the event of subscript access error
 	bool growVector();				// Function increases the size of the current vector
+	bool isValidSubscript(int);		// Function returns whether subscript is valid for current vector
 	int getNewAllocationSize();		// Function returns new vector capacity based on exponential  
 									//		algorithm to maintain efficiency over standard array
 
 public:
     
 	/* Static Constants */
-	static const int MAX_EXPANSION_AMOUNT = 150;	// Stores maximum vector capacity increase on reallocation
+		static const int MAX_EXPANSION_AMOUNT = 150;	// Stores maximum capacity increase on reallocation
 
     /* Constructors */
 
         // Default constructor
         SimpleVector()
-            { aptr = 0; arraySize = 0;}
+            { aPtr = 0; arraySize = 0;}
 
         // Parameterized constructor accepting int value for initial size
         SimpleVector(int);
@@ -62,28 +63,34 @@ public:
 
     /* Member functions */
 
-        // Accessor function to return size of array
-        int size() const
-            { return arraySize; }
+		
+		/* OVERLOADED OPERATORS */
 
-		// Accessor function to return capacity of array
-		int capacity() const
+		T operator[] (const int) const;			// Subscript operator for noneditable element
+        T& operator[] (const int);				// Subscript operator for editable element
+
+
+		/* ACCESSOR FUNCTIONS */
+
+		int size() const				// Returns size of array
+			{ return arraySize;	}
+
+		int capacity() const			// Returns capacity of array
 			{ return capacity; }
 
-        // Accessor function to return a specific element
-        T getElement(int position);
+		T getElement(const int) const;	// Returns a specific element
 
-		// Overloaded subscript operator for noneditable element
-		T operator[] (const int) const;
+		T front() const					// Returns first element in vector
+			{ return aPtr[0]; }
 
-        // Overloaded subscript operator for editable element
-        T& operator[] (const int);
+		T back() const					// Returns the last element in vector
+			{ return aPtr[(arraySize - 1)]; }
 
-        // Function to add element onto end
-        bool push_back(T);
+        
+		/* MODIFIERS */
 
-        // Function to delete element at end of vector
-        bool pop_back();
+        bool push_back(T);	// Adds element onto end of vector
+        bool pop_back();	// Deletes element at end of vector
 };
 
 #endif

@@ -7,11 +7,11 @@
  *                class designed for a program to create
  *                searchable vectors of different data
  *                types. It is based on the SimpleVector
- *                template class. This file contains
- *                the class declarations and definitions.
- *
+ *                template class. 
+
  *    Associated
- *		   files: SimpleVector.h
+ *		   files: SimpleVector.h		// Base class header
+ *				  SearchableVector.cpp  // Function definitions
  *
  *       Code by: Craig Medlin
  * Last Modified: Nov. 23, 2014
@@ -31,12 +31,11 @@ class SearchableVector : public SimpleVector<T>
 
 private:
     /* Variables */
-    SimpleVector<T> sorted;     // To hold the sorted dataset
+    SimpleVector<T> sorted;     // Holds the sorted dataset
 
     /* Functions */
+    void sortData();	// Sorts vector in ascending order
 
-    // The sort data function puts the vector in ascending order
-    void sortData(); 
 
 public:
     /* Constructors */
@@ -58,7 +57,7 @@ public:
     /* Member functions */
 
         // Function to locate item in vector
-        bool doesExist(T);
+        bool doesExist(T const) const;
 
 };
 

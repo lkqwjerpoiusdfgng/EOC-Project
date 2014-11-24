@@ -68,6 +68,7 @@
     <ClInclude Include="SimpleVector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="SearchableVector.cpp" />
     <ClCompile Include="SimpleVector.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

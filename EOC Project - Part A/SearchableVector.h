@@ -10,8 +10,7 @@
  *                template class. 
 
  *    Associated
- *		   files: SimpleVector.h		// Base class header
- *				  SearchableVector.cpp  // Function definitions
+ *		   files: SimpleVector.h		// Base class
  *
  *       Code by: Craig Medlin
  * Last Modified: Nov. 23, 2014
@@ -23,6 +22,7 @@
 #ifndef SEARCHABLEVECTOR_H
 #define SEARCHABLEVECTOR_H
 
+#include <algorithm>	// std::sort
 #include "SimpleVector.h"
 
 template <class T>
@@ -44,7 +44,8 @@ public:
         SearchableVector() : SimpleVector<T>();
 
         // Parameterized constructor
-		SearchableVector(int size) : SimpleVector<T>(size);
+		SearchableVector(int size) : SimpleVector<T>(size)
+			{ }
 
         // Copy constructor
         SearchableVector(const SearchableVector &);
@@ -59,5 +60,40 @@ public:
 		bool doesExist(const T) const;
 
 };
+
+/* Private Functions */
+
+template <class T>
+void SearchableVector<T>::sortData()
+{
+	// Copy data to new SimpleVector to prevent
+	// damage to original data
+	sorted = new SimpleVector<T>(this);
+
+	// Sort data
+	std::sort(sorted[0], sorted[sorted.size() - 1]);
+}
+
+/* Destructor */
+
+template <class T>
+SearchableVector<T>::~SearchableVector()
+{
+	// Check if memory has been allocated
+	if (sorted.capacity > 0)
+	{
+		// Deallocate memory
+		delete[] sorted;
+	}
+}
+
+/* Member functions */
+
+template <class T>
+bool SearchableVector<T>::doesExist(const T element) const
+{
+	// Binary search for element, return true if it exists in vector
+	return std::binary_search(sorted[0], sorted[sorted.size() - 1], element);
+}
 
 #endif

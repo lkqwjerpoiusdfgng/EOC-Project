@@ -118,11 +118,35 @@ void showMenu()
 	} while (menuSelection != 5);
 }
 
+// This function tests the SimpleVector
 void testSimpleVector()
 {
-	SimpleVector<int> *simVectorA = new SimpleVector<int>(10);
+	// Output information about testing process
+	cout << "\n\n\n\n\n" 
+		 << "We will now test the SimpleVector template class.\n"
+		 << "First, we will create a SimpleVector object to store int elements,\n"
+		 << "and also one to store double elements. We will then assign values\n"
+		 << "to the vectors and demonstrate the different functions that are possible.\n\n\n";
 
+	// Create SimpleVector for int elements
+	SimpleVector<int> simVectorA(10); // = new SimpleVector<int>(10);
 
+	// Output creation confirmation
+	cout << "New SimpleVector<int> created, simVectorA.\n";
+	
+	// Create SimpleVector for double elements
+//	SimpleVector<double> *simVectorB = new SimpleVector<double>();
+
+	// Output creation confirmation
+	cout << "New SimpleVector<double> created simVectorB.\n";
+
+	// Fill arrays with data
+	cout << "We will now fill the arrays with data.";
+
+//	for (int index = 0, value = 1; index < 10; index++, value++)
+//	{
+//		simVectorA[index] = value;
+//	}
 }
 
 void testSearchableVector()

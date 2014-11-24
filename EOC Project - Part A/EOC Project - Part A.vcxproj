@@ -68,6 +68,7 @@
     <ClInclude Include="SimpleVector.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ProgramDriver.cpp" />
     <ClCompile Include="SearchableVector.cpp" />
     <ClCompile Include="SimpleVector.cpp" />
   </ItemGroup>

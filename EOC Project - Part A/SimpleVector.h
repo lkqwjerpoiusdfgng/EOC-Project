@@ -29,7 +29,7 @@ private:
     /* Variables */ 
     T *aPtr;            // Points to the array that is holding data
     int arraySize;      // Holds size of current vector
-	int capacity;		// Holds capacity of current vector
+	int vectorCapacity;	// Holds capacity of current vector
     int timesGrown;     // Holds number of times the vector has been grown
    
     /* Functions */
@@ -76,7 +76,7 @@ public:
 			{ return arraySize;	}
 
 		int capacity() const			// Returns capacity of array
-			{ return capacity; }
+			{ return vectorCapacity; }
 
 		T getElement(const int) const;	// Returns a specific element
 

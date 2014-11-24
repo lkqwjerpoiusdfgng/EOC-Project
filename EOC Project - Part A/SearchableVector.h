@@ -41,11 +41,10 @@ public:
     /* Constructors */
 
         // Default constructor
-        SearchableVector() : SimpleVector<T>()
-            { }
+        SearchableVector() : SimpleVector<T>();
 
         // Parameterized constructor
-        SearchableVector(int size) : SimpleVector<T>(size)
+		SearchableVector(int size) : SimpleVector<T>(size);
 
         // Copy constructor
         SearchableVector(const SearchableVector &);
@@ -57,7 +56,7 @@ public:
     /* Member functions */
 
         // Function to locate item in vector
-        bool doesExist(T const) const;
+		bool doesExist(const T) const;
 
 };
 

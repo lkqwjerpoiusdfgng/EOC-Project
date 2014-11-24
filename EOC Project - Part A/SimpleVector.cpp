@@ -1,22 +1,22 @@
 /***************************************************
-********** EOC - Part A: Vector Template **********
-***************************************************
-*
-*      Filename: SimpleVector.cpp
-*   Description: The SimpleVector class is a template
-*                class designed to emulate certain
-*                features of the STL <vector> and
-*                demonstrate template classes/functions.
-*
-*    Associated
-*		   files: SimpleVector.h		// Template class header
-*
-*       Code by: Craig Medlin
-* Last Modified: Nov. 23, 2014
-*
-*        Course: COSC 1437-P70 — M 6-9:45 p.m.
-*     Professor: Charles Braun
-*/
+ ********** EOC - Part A: Vector Template **********
+ ***************************************************
+ *
+ *      Filename: SimpleVector.cpp
+ *   Description: The SimpleVector class is a template
+ *                class designed to emulate certain
+ *                features of the STL <vector> and
+ *                demonstrate template classes/functions.
+ *
+ *    Associated
+ *		   files: SimpleVector.h		// Template class header
+ *
+ *       Code by: Craig Medlin
+ * Last Modified: Nov. 23, 2014
+ *
+ *        Course: COSC 1437-P70 — M 6-9:45 p.m.
+ *     Professor: Charles Braun
+ */
 
 #include <iostream>
 #include <new>       // For bad_alloc exception

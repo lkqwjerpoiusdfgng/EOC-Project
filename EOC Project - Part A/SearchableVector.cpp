@@ -1,23 +1,23 @@
 /***************************************************
-********** EOC - Part A: Vector Template **********
-***************************************************
-*
-*      Filename: SearchableVector.cpp
-*   Description: The SearchableVector class is a template
-*                class designed for a program to create
-*                searchable vectors of different data
-*                types. It is based on the SimpleVector
-*                template class.
-*
-*    Associated
-*		   files: SearchableVector.h	// Class header
-*
-*       Code by: Craig Medlin
-* Last Modified: Nov. 23, 2014
-*
-*        Course: COSC 1437-P70 — M 6-9:45 p.m.
-*     Professor: Charles Braun
-*/
+ ********** EOC - Part A: Vector Template **********
+ ***************************************************
+ *
+ *      Filename: SearchableVector.cpp
+ *   Description: The SearchableVector class is a template
+ *                class designed for a program to create
+ *                searchable vectors of different data
+ *                types. It is based on the SimpleVector
+ *                template class.
+ *
+ *    Associated
+ *		   files: SearchableVector.h	// Class header
+ *
+ *       Code by: Craig Medlin
+ * Last Modified: Nov. 23, 2014
+ *
+ *        Course: COSC 1437-P70 — M 6-9:45 p.m.
+ *     Professor: Charles Braun
+ */
 
 #include "SearchableVector.h"
 

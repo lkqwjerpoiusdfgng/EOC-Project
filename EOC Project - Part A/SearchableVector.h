@@ -29,11 +29,9 @@ class SearchableVector : public SimpleVector<T>
 {
 
 private:
-    /* Variables */
-    SimpleVector<T> sorted;     // Holds the sorted dataset
 
     /* Functions */
-    void sortData();	// Sorts vector in ascending order
+	void quickSort(T*, const int, const int);	// Sorts vector in ascending order
 
 
 public:
@@ -58,30 +56,52 @@ public:
     /* Member functions */
 
         // Function to locate item in vector
-		bool doesExist(const T) const;
+		bool doesExist(const T);
 
 };
 
 /* Private Functions */
 
 template <class T>
-void SearchableVector<T>::sortData()
+void SearchableVector<T>::quickSort(T sort[], const int left, const int right)
 {
-	// Copy data to new SimpleVector to prevent
-	// damage to original data
-	sorted = new SimpleVector<T>(this);
 
 	// Temp variable to hold value to swap
 	T temp;
 
-	// Sort data
-	for (int index = 0; index < sorted.size(); index++)
+	// Pivot for QuickSort algorithm
+	T pivot = sort[(left+right)/2];
+
+	// Variables for sorting
+	int i = left, j = right;
+
+	// Partition
+	while (i <= j)
 	{
-		for (int sub = 0; sub < sorted.size(); sub++)
+		while (sort[i] < pivot)
 		{
-			
+			i++;
 		}
-	}
+		while (sort[j] > pivot)
+		{
+			j--;
+		}
+		if (i <= j)
+		{
+			temp = sort[i];
+			sort[i] = sort[j];
+			sort[j] = temp;
+			i++;
+			j--;
+		}
+	};
+
+	// Recursion
+	if (left < j)
+		quickSort(sort, left, j);
+	if (i < right)
+		quickSort(sort, i, right);
+
 }
 
 /* Destructor */
@@ -95,10 +115,51 @@ SearchableVector<T>::~SearchableVector()
 /* Member functions */
 
 template <class T>
-bool SearchableVector<T>::doesExist(const T element) const
+bool SearchableVector<T>::doesExist(const T element)
 {
-	// Binary search for element, return true if it exists in vector
-	return std::binary_search(sorted[0], sorted[sorted.size() - 1], element);
+	// Copy data to new array for security
+	T *sorted = new T[size()];
+
+	for (int i = 0; i < size(); i++)
+	{
+		sorted[i] = this->getElement(i);
+	}
+	
+	// Store position of last element
+	int back = this->size() - 1;
+	
+	// Sort the data
+	quickSort(sorted, 0, back);
+
+	// Display sorted list 
+	for (int i = 0; i < size(); i++)
+	{
+		cout << sorted[i] << endl;
+	}
+
+	// Binary search
+	bool exists = false;
+	int l = 0, h = back;
+
+	while (h >= l)
+	{
+		int mid = (h+l) / 2;
+		if (element == sorted[mid])
+		{
+			exists = true;
+			return exists;
+		}
+		else if (element > sorted[mid])
+		{
+			l = mid + 1;
+		}
+		else
+		{
+			h = mid - 1;
+		}
+	}
+
+	return exists;
 }
 
 #endif

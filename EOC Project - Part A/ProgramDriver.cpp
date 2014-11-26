@@ -278,9 +278,11 @@ void testSearchableVector()
 	// Attempt to locate value 12
 	cout << "We will now run a search for value 12 within this vector.\n\n";
 
-	cout << "vector.doesExist(12): " << vector.doesExist(12) << endl;
+	bool exists = vector.doesExist(12);
 
-	cout << "We have now finished testing the searchable vector.";
+	cout << "vector.doesExist(12): " << (exists ? "true" : "false") << "\n\n";
+
+	cout << "We have now finished testing the searchable vector.\n\n";
 
 }
 

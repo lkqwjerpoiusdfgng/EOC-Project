@@ -307,11 +307,9 @@ T SimpleVector<T>::operator[] (int sub) const
 		subError();
 		return NULL;
 	}
-	else
-	{
-		// Return the called element
-		return aPtr[sub];
-	}
+	
+	// Return the called element
+	return aPtr[sub];
 }
 
 //***********************************************************
@@ -331,14 +329,14 @@ T& SimpleVector<T>::operator[] (int sub)
 	else
 	{
 		// Increment array size if necessary
-		if (sub >= arraySize) 
+		if (sub >= arraySize)
 		{
 			arraySize++;
 		}
-
-		// Return the editable called element
-		return *(aPtr + sub);
 	}
+
+	// Return the editable called element
+	return *(aPtr + sub);
 }
 
 

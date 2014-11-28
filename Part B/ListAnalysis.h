@@ -58,7 +58,15 @@ public:
 	void deleteBack();
 	void addToFront(T);
 	void addToBack(T);
+
+	using SortedLinkList<T>::printList;
 };
+
+template <class T>
+ListAnalysis<T>::~ListAnalysis()
+{
+
+}
 
 template <class T>
 T ListAnalysis<T>::getHighValue()
@@ -90,10 +98,14 @@ template <class T>
 T ListAnalysis<T>::getAverage()
 {
 	ListNode<T> *nodePtr;	// To traverse linked list
-	T sum;					// Variable to hold sum
+	T sum;			// Variable to hold sum
 	
 	// Start at head
 	nodePtr = head;
+	sum = head->value;
+
+	// Move to next node
+	nodePtr = nodePtr->next;
 
 	// Sum all the values
 	while (nodePtr != nullptr)
@@ -110,7 +122,7 @@ template <class T>
 T ListAnalysis<T>::getMedian()
 {
 	int position = 0;		// To store current node
-	int median = count /2	// Holds position of median node
+	int median = count / 2;	// Holds position of median node
 	ListNode<T> *nodePtr;	// To traverse list
 
 	// Start at head
@@ -129,7 +141,50 @@ T ListAnalysis<T>::getMedian()
 template <class T>
 T ListAnalysis<T>::getMode()
 {
+	/* Variables */
+	ListNode<T> *nodePtr;	// To traverse list
+	ListNode<T> *counting;	// To hold value being incremented
+	ListNode<T> *most;		// To point to most occuring node
+	int mostOccurences = 0; // Holds greatest number of occurances
+	int occurences = 0;		// Holds current number of occurances
 
+	// Start at head
+	nodePtr = head;
+	counting = head;
+	most = head;
+
+	// Traverse list
+	while (nodePtr != nullptr)
+	{
+		// Check if the value being counted matches current value
+		while (nodePtr != nullptr && counting->value == nodePtr->value)
+		{
+			// Increment occurances
+			occurences++;
+
+			// Move to next node
+			nodePtr = nodePtr->next;
+		}
+
+		// Check if number of occurances is greater than previous best
+		if (occurences >= mostOccurences)
+		{
+			// Store current number of occurances as most
+			mostOccurences = occurences;
+
+			// Store node being counted as the most occuring
+			most = counting;
+		}
+		
+		// Move counting node to current node
+		counting = nodePtr;
+
+		// Reset number of occurances
+		occurences = 0;
+	}
+
+	// Return most occuring value
+	return most->value;
 }
 
 template <class T>

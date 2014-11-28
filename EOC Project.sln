@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Part A", "EOC Project - Par
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Part B", "Part B\Part B.vcxproj", "{82AD0432-97AB-48F5-919D-A0106BEE156E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Part C", "Part C\Part C.vcxproj", "{DB9C86D6-ACA1-4A0E-B2B5-B47A50126E26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{82AD0432-97AB-48F5-919D-A0106BEE156E}.Debug|Win32.Build.0 = Debug|Win32
 		{82AD0432-97AB-48F5-919D-A0106BEE156E}.Release|Win32.ActiveCfg = Release|Win32
 		{82AD0432-97AB-48F5-919D-A0106BEE156E}.Release|Win32.Build.0 = Release|Win32
+		{DB9C86D6-ACA1-4A0E-B2B5-B47A50126E26}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB9C86D6-ACA1-4A0E-B2B5-B47A50126E26}.Debug|Win32.Build.0 = Debug|Win32
+		{DB9C86D6-ACA1-4A0E-B2B5-B47A50126E26}.Release|Win32.ActiveCfg = Release|Win32
+		{DB9C86D6-ACA1-4A0E-B2B5-B47A50126E26}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

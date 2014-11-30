@@ -209,6 +209,7 @@ void VendorList::buildList(std::string filename)
 				// Create vendor record
 				insertRecordNode(std::stoi(record[0]),record[1],record[2],record[3],record[4]);
 
+				// Increment number of records count
 				numOfRecords++;
 			}
 		}

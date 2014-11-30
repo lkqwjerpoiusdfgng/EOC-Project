@@ -139,13 +139,12 @@ void testIndexedList()
 	search = vList.getVendorRecord(12);
 
 	// Display results of search
-	cout << search;
+	cout << search->getID() << "\t" << search->getName() << "\t" << search->getCity() << "\t" << search->getState() << "\t" << search->getZipCode() << endl;
 
 	// Pause for user to press enter
 	pressEnterToContinue();
 	cout << endl;
 
-	
 }
 
 // Function to pause until user presses ENTER

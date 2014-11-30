@@ -20,14 +20,15 @@
 #ifndef VENDORLIST_H
 #define VENDORLIST_H
 
-#include "Vendor.h"			// For Vendor class
-#include <string>
+#include "Vendor.h"		// For Vendor class
+#include <string>		// For string class
 
 using namespace std;
 
 // Forward declarations
 struct RecordNode;
 
+// Structure of index nodes
 struct IndexNode
 {
 	std::string state;
@@ -35,17 +36,21 @@ struct IndexNode
 	RecordNode *firstRecord;
 };
 
+// Structure of record nodes
 struct RecordNode
 {
 	Vendor record;
 	RecordNode *nextRecord;
 };
 
+// VendorList class
 class VendorList
 {
 private:	
+	// Pointer to first IndexNode
 	IndexNode *head;
 
+	// Helper function to check if a source file is valid
 	bool isValidFile(std::string);
 
 public:
@@ -59,9 +64,10 @@ public:
 	void buildList(std::string);
 	void insertIndexNode(std::string);
 	void insertRecordNode(int, std::string, std::string, std::string, std::string);
-	Vendor* getVendorRecord(int);
+	Vendor getVendorRecord(int);
 	void listRecords(std::string);
 	void listAllRecords();
+	void printHeaders();
 
 };
 

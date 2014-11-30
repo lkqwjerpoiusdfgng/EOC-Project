@@ -10,27 +10,28 @@
  *				  in conjunction with a linked list
  *				  (see VendorList.h).
  *
- *
  *    Associated
  *		   files: Vendor.h		// Class header
  *
  *       Code by: Craig Medlin
- * Last Modified: Nov. 29, 2014
+ * Last Modified: Nov. 30, 2014
  *
  *        Course: COSC 1437-P70 — M 6-9:45 p.m.
  *     Professor: Charles Braun
  */
 
-#include "Vendor.h"
-#include <string>
+#include "Vendor.h"		// Vendor class header
+#include <string>		// For string class
 
 /* CONSTRUCTORS */
 
+// Default constructor
 Vendor::Vendor()
 {
 	id = 0;
 }
 
+// Parameterized constructor to set all initial record values
 Vendor::Vendor(int vID, std::string vName, std::string vCity, std::string vState, std::string vZip)
 {
 	id = vID;
@@ -48,27 +49,9 @@ Vendor::~Vendor()
 
 }
 
-
-/* PRIVATE FUNCTIONS */
-bool Vendor::isValidZip(int testZip)
-{
-	int digits = 0;
-	
-	if (testZip < 0) 
-	{
-		return false;
-	}
-
-	while (testZip) {
-		testZip /= 10;
-		digits++;
-	}
-	
-	return digits == 5;
-}
-
 /* MEMBER FUNCTIONS */
 
+// Set Vendor ID
 bool Vendor::setID(int nID)
 {
 	if (nID != 0) 
@@ -83,6 +66,7 @@ bool Vendor::setID(int nID)
 	}
 }
 
+// Set Vendor Name
 bool Vendor::setName(std::string nName)
 {
 	if (!nName.empty())
@@ -97,6 +81,7 @@ bool Vendor::setName(std::string nName)
 	}
 }
 
+// Set Vendor City
 bool Vendor::setCity(std::string nCity)
 {
 	if (!nCity.empty())
@@ -111,6 +96,7 @@ bool Vendor::setCity(std::string nCity)
 	}
 }
 
+// Set Vendor State
 bool Vendor::setState(std::string nState)
 {
 	if (!nState.empty())
@@ -125,6 +111,7 @@ bool Vendor::setState(std::string nState)
 	}
 }
 
+// Set Vendor Zip Code
 bool Vendor::setZipCode(std::string nZip)
 {
 	if (!nZip.empty())

@@ -11,7 +11,7 @@
  *		   files: VendorList.h		// Class header
  *
  *       Code by: Craig Medlin
- * Last Modified: Nov. 29, 2014
+ * Last Modified: Nov. 30, 2014
  *
  *        Course: COSC 1437-P70 — M 6-9:45 p.m.
  *     Professor: Charles Braun
@@ -25,6 +25,8 @@
 #include <iomanip>			// For setw()
 
 /* CONSTRUCTOR */
+
+// Default constructor
 VendorList::VendorList()
 {
 	head = nullptr;
@@ -32,6 +34,8 @@ VendorList::VendorList()
 
 
 /* DESTRUCTOR */
+
+// Destructor deletes all index and record nodes
 VendorList::~VendorList()
 {
 	IndexNode *indexPtr;	// Used to navigate index lsit
@@ -77,6 +81,14 @@ VendorList::~VendorList()
 }
 
 /* PRIVATE FUNCTIONS */
+
+/****************************************************
+* The isValidFile() function is a helper functioned *
+* designed to test a source file header against		*
+* the expected values for a Vendor List txt file    *
+* in the proper format. It returns a bool.			*
+****************************************************/
+
 bool VendorList::isValidFile(std::string line)
 {
 	/* CONSTANTS for testing */
@@ -126,8 +138,20 @@ bool VendorList::isValidFile(std::string line)
 }
 
 /* MEMBER FUNCTIONS */
+
+
+/****************************************************
+* The buildList() function accepts a file name as a *
+* string and attempts to construct a vendor list	*
+* from a source file matching this name. For the	*
+* list to be constructed, the source file has to	*
+* match the expected format.
+****************************************************/
+
 void VendorList::buildList(std::string filename)
 {
+	int numOfRecords = 0;	// Records number of records being stored
+	
 	// Create file object
 	std::ifstream vList;
 
@@ -157,6 +181,7 @@ void VendorList::buildList(std::string filename)
 		if (isValidFile(line))
 		{
 			std::cout << "***File formatted as expected\n";
+			std::cout << "***Attempting to store new records\n";
 
 			// Skip a line for expected dashes under header
 			getline(vList, line);
@@ -184,7 +209,7 @@ void VendorList::buildList(std::string filename)
 				// Create vendor record
 				insertRecordNode(std::stoi(record[0]),record[1],record[2],record[3],record[4]);
 
-				std::cout << "***New record stored!\n";
+				numOfRecords++;
 			}
 		}
 		else
@@ -194,6 +219,15 @@ void VendorList::buildList(std::string filename)
 		}
 
 		vList.close();
+
+		if (numOfRecords > 0)
+		{
+			std::cout << "***" << numOfRecords << " stored in VendorList.\n";
+		}
+		else
+		{
+			std::cout << "*** No records stored!\n";
+		}
 	}
 	else
 	{
@@ -202,6 +236,13 @@ void VendorList::buildList(std::string filename)
 
 }
 
+/****************************************************
+* The insertIndexNode() function accepts a string   *
+* that will indicate the new state the new vendor   *
+* index is to represent. It then verifies the state *
+* is not represented by an existing index and		*
+* inserts it into the list.							*
+****************************************************/
 
 void VendorList::insertIndexNode(std::string nIndex)
 {
@@ -259,6 +300,14 @@ void VendorList::insertIndexNode(std::string nIndex)
 		}
 	}
 }
+
+/****************************************************
+* The insertRecordNode() function accepts arguments *
+* for vendor ID, vendor name, vendor city, vendor   *
+* state, and vendor zip code. These arguments are	*
+* then used to construct a new Vendor record node   *
+* and then insert it into the VendorList.			*
+****************************************************/
 
 void VendorList::insertRecordNode(int vID, std::string vName, std::string vCity, std::string vState, std::string vZip)
 {
@@ -341,12 +390,20 @@ void VendorList::insertRecordNode(int vID, std::string vName, std::string vCity,
 	
 }
 
-Vendor* VendorList::getVendorRecord(int vID)
+/****************************************************
+* The getVendorRecord() function accepts an int 	*
+* argument for a vendor ID and searches through		*
+* the current VendorList for any vendor records		*
+* that match that ID. If found, it returns a copy   *
+* of the Vendor object.								*
+****************************************************/
+
+Vendor VendorList::getVendorRecord(int vID)
 {
 	// Variables
 	IndexNode *currIndex;					// To traverse index nodes
 	RecordNode *currRecord = nullptr;		// To traverse record nodes
-	Vendor *vRecord = nullptr;				// To copy data from record
+	Vendor foundRecord;						// To store found record
 	bool found = false;						// Flag for if record was found
 
 
@@ -361,21 +418,20 @@ Vendor* VendorList::getVendorRecord(int vID)
 	else
 	{
 		// While index exists
-		while (currIndex != nullptr)
+		while (currIndex != nullptr && found != true)
 		{
 			// Start at first record
 			currRecord = currIndex->firstRecord;
 
 			// While records exist
-			while (currRecord != nullptr)
+			while (currRecord != nullptr && found != true)
 			{
 				// See if we've found the matching record
 				if (vID == currRecord->record.getID())
 				{
 					// Copy record data
-					vRecord = new Vendor(currRecord->record);
+					foundRecord = currRecord->record;
 					found = true;
-					return vRecord;
 				}
 				else
 				{
@@ -396,8 +452,15 @@ Vendor* VendorList::getVendorRecord(int vID)
 		throw "ERROR: No record found for that vendor ID!";
 	}
 
-	return vRecord;
+	return foundRecord;
 }
+
+/****************************************************
+* The listAllRecords() function accepts a string	*
+* argument for a vendor state and searches through  *
+* the current VendorList and displays all records	*
+* that exist for that state, if any.			    *
+****************************************************/
 
 void VendorList::listRecords(std::string state)
 {
@@ -440,7 +503,7 @@ void VendorList::listRecords(std::string state)
 			{
 				// Print table header
 				std::cout << "Vendor records found for " << state << endl;
-				std::cout << "ID\tName\tCity\tState\tZip Code\n";
+				printHeaders();
 
 				// While records exist
 				while (currRecord != nullptr)
@@ -458,6 +521,13 @@ void VendorList::listRecords(std::string state)
 
 }
 
+/****************************************************
+* The listAllRecords() function searches through    *
+* the current VendorList and displays all records	*
+* associated with it. It achieves this by looping   *
+* through each index node and also looping through  *
+* all the records within each index node loop.		*
+****************************************************/
 
 void VendorList::listAllRecords()
 {
@@ -480,17 +550,9 @@ void VendorList::listAllRecords()
 	while (currIndex != nullptr)
 	{
 
-		// Print table header
+		// Display table headers
 		std::cout << "Results from index node for " << currIndex->state << endl;
-		std::cout << std::setw(11) << left << "VendorID";
-		std::cout << std::setw(32) << left << "Vendor Name";
-		std::cout << std::setw(16) << left << "Vendor City";
-		std::cout << std::setw(11) << left << "State";
-		std::cout << std::setw(7) << left << "ZipCode" << endl;
-
-		std::cout << std::setfill('-') << std::setw(77) << "-" << endl;
-
-		std::cout << std::setfill(' ');
+		printHeaders();
 
 		// Start at first record
 		currRecord = currIndex->firstRecord;
@@ -513,6 +575,31 @@ void VendorList::listAllRecords()
 	}
 }
 
+/***************************************************
+* The printHeaders() function is a helper function *
+* designed to print the table headers for a vendor *
+* record. The table matches the expected format of *
+* a vendor record.								   *
+***************************************************/
+
+void VendorList::printHeaders()
+{
+	std::cout << std::setw(11) << left << "VendorID";
+	std::cout << std::setw(32) << left << "Vendor Name";
+	std::cout << std::setw(16) << left << "Vendor City";
+	std::cout << std::setw(11) << left << "State";
+	std::cout << std::setw(7) << left << "ZipCode" << endl;
+
+	std::cout << std::setfill('-');
+	std::cout << std::setw(11) << right << " ";
+	std::cout << std::setw(32) << right << " ";
+	std::cout << std::setw(16) << right << " ";
+	std::cout << std::setw(11) << right << " ";
+	std::cout << std::setw(7)  << right << " ";
+	
+	std::cout << endl;
+	std::cout << std::setfill(' ');
+}
 
 // Overloaded  output operator
 ostream& operator<<(ostream& out, const Vendor &vRecord)

@@ -12,7 +12,7 @@
  *		   files: VendorList.h		// VendorList class
  *
  *       Code by: Craig Medlin
- * Last Modified: Nov. 28, 2014
+ * Last Modified: Nov. 30, 2014
  *
  *        Course: COSC 1437-P70 — M 6-9:45 p.m.
  *     Professor: Charles Braun
@@ -29,6 +29,7 @@ void showMenu();
 void testIndexedList();
 void pressEnterToContinue();
 
+// Program's main function
 int main()
 {
 	// Display program information
@@ -100,23 +101,29 @@ void showMenu()
 	} while (menuSelection != 3);
 }
 
+
+// Function to test the indexed vendor list
 void testIndexedList()
 {
 	// Create new VendorList object
 	VendorList vList;
 
+	// Inform user that object was created
 	cout << "\n***New VendorList object created!\n";
 	
+
+	// Alert to testing process
 	cout << "\nWe will first attempt to read in the vendor data from a source file.\n";
 	cout << "The source file is called \"Vendor List File.txt\"\n\n";
 
+	// Build the list from the source file
 	vList.buildList("Vendor List File.txt");
-	
+
 	// Pause for user to press enter
 	pressEnterToContinue();
 	cout << endl;
 
-	// List all sorted records
+	// Test listAllRecords() function
 	vList.listAllRecords();
 	cout << endl;
 
@@ -124,7 +131,11 @@ void testIndexedList()
 	pressEnterToContinue();
 	cout << endl;
 
-	// List all records from California
+	// Alert to next test
+	cout << "\nWe will now test the listRecords() function to show all records\n"
+		<< "for vendors within the state of California.\n\n";
+
+	// Test ListRecords() function
 	vList.listRecords("CA");
 	cout << endl;
 
@@ -132,18 +143,20 @@ void testIndexedList()
 	pressEnterToContinue();
 	cout << endl;
 
-	// Variable to point to vendor object from search
-	Vendor *search;
+	// Alert to final test
+	cout << "\nWe will now test the getVendorRecord() function to locate and display\n"
+		<< "the vendor record held for a given vendor ID. For this test, we will\n"
+		<< "be searching for vendor ID: 12.\n\n";
 
 	// Attempt to locate a particular vendor record
-	search = vList.getVendorRecord(12);
+	Vendor &search = vList.getVendorRecord(12);
 
-	// Display results of search
-	cout << search->getID() << "\t" << search->getName() << "\t" << search->getCity() << "\t" << search->getState() << "\t" << search->getZipCode() << endl;
+	// Display results
+	vList.printHeaders();
+	cout << search;
+	cout << "\n\n\n";
 
-	// Pause for user to press enter
-	pressEnterToContinue();
-	cout << endl;
+	cout << "We are now finished testing the VendorList class.\n\n";
 
 }
 

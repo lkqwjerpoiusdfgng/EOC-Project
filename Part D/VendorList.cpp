@@ -78,7 +78,7 @@ VendorList::~VendorList()
 
 	// Reset head
 	head = nullptr;
-}
+} // DESTRUCTOR
 
 /* PRIVATE FUNCTIONS */
 
@@ -128,6 +128,8 @@ bool VendorList::isValidFile(std::string line)
 		{
 			if (fZip == ZIP)
 			{
+				// If file headers match expected 
+				// values, file is valid
 				isValid = true;
 			}
 		}
@@ -135,7 +137,7 @@ bool VendorList::isValidFile(std::string line)
 
 	// Return file validity
 	return isValid;
-}
+} // IS_VALID_FILE
 
 /* MEMBER FUNCTIONS */
 
@@ -155,16 +157,18 @@ void VendorList::buildList(std::string filename)
 	// Create file object
 	std::ifstream vList;
 
+	// Update user on progress
 	std::cout << "***Creating ifstream object\n";
 
 	// Open file
 	vList.open(filename);
 
+	// Only proceed if file has successfully opened
 	if (vList.is_open())
 	{
 		std::cout << "***Opening " << filename << endl;
 
-		// String to hold line
+		// String to hold line read from file
 		std::string line;
 
 		// Expecting two blank lines before header
@@ -173,8 +177,10 @@ void VendorList::buildList(std::string filename)
 			getline(vList, line);
 		}
 
+		// Update user on progress
 		std::cout << "***Verifying file is in expected format\n";
 
+		// Read in next line (expecting header information)
 		getline(vList, line);
 
 		// Check if file has expected header info
@@ -198,19 +204,17 @@ void VendorList::buildList(std::string filename)
 				record[3] = line.substr(62, 11);	// Vendor State
 				record[4] = line.substr(74, 5);		// Vendor Zip Code
 
-				// Trim strings
+				// Trim strings of white space
 				for (int i = 0; i < 5; i++)
 				{
 					record[i] = record[i].erase(record[i].find_last_not_of(" \n\r\t") + 1);
 				}
 
-				
-
 				// Create vendor record
 				insertRecordNode(std::stoi(record[0]),record[1],record[2],record[3],record[4]);
 
 				// Increment number of records count
-				numOfRecords++;
+				++numOfRecords;
 			}
 		}
 		else
@@ -219,8 +223,10 @@ void VendorList::buildList(std::string filename)
 			std::cout << "ERROR: File not in expected format!\n";
 		}
 
+		// Close the file
 		vList.close();
 
+		// Output number of records stored, if any
 		if (numOfRecords > 0)
 		{
 			std::cout << "***" << numOfRecords << " stored in VendorList.\n";
@@ -232,10 +238,11 @@ void VendorList::buildList(std::string filename)
 	}
 	else
 	{
+		// Alert user that the file was not opened successfully
 		std::cout << "***ERROR: File could not be opened!\n";
 	}
 
-}
+} // BUILD_LIST
 
 /****************************************************
 * The insertIndexNode() function accepts a string   *
@@ -300,7 +307,7 @@ void VendorList::insertIndexNode(std::string nIndex)
 			newIndex->nextIndex = currIndex;
 		}
 	}
-}
+} // INSERT_INDEX_NODE
 
 /****************************************************
 * The insertRecordNode() function accepts arguments *
@@ -387,9 +394,15 @@ void VendorList::insertRecordNode(int vID, std::string vName, std::string vCity,
 		// Insert new record
 		if (prevRecord != nullptr) { prevRecord->nextRecord = newRecord; }
 		newRecord->nextRecord = (currRecord != nullptr ? currRecord : nullptr);
+
+		// Update firstRecord if necessary
+		if (currRecord == currIndex->firstRecord)
+		{
+			currIndex->firstRecord = newRecord;
+		}
 	}
 	
-}
+} // INSERT_RECORD_NODE
 
 /****************************************************
 * The getVendorRecord() function accepts an int 	*
@@ -454,7 +467,7 @@ Vendor VendorList::getVendorRecord(int vID)
 	}
 
 	return foundRecord;
-}
+} // GET_VENDOR_RECORD
 
 /****************************************************
 * The listAllRecords() function accepts a string	*
@@ -465,6 +478,7 @@ Vendor VendorList::getVendorRecord(int vID)
 
 void VendorList::listRecords(std::string state)
 {
+	// Pointers to navigate index and record nodes
 	IndexNode *currIndex;
 	RecordNode *currRecord = nullptr;
 
@@ -474,6 +488,7 @@ void VendorList::listRecords(std::string state)
 	// Verify nodes exist
 	if (head == nullptr)
 	{
+		// If nodes don't exist, break and alert user
 		std::cout << "ERROR: The index is empty!\n";
 		return;
 	}
@@ -489,6 +504,7 @@ void VendorList::listRecords(std::string state)
 		// Verify records exist
 		if (currIndex == nullptr || currIndex->state != state)
 		{
+			// If no nodes exist for the given state, alert user
 			std::cout << "ERROR: No records were found for " << state << "!\n";
 		}
 		else
@@ -496,8 +512,10 @@ void VendorList::listRecords(std::string state)
 			// Start at first record
 			currRecord = currIndex->firstRecord;
 
+			// Verify that records exist
 			if (currRecord == nullptr)
 			{
+				// If no records exist, alert user
 				std::cout << "No records exist for " << state << "!\n";
 			}
 			else
@@ -515,12 +533,12 @@ void VendorList::listRecords(std::string state)
 
 					// Advance to next record
 					currRecord = currRecord->nextRecord;
-				}
+				} // RECORDS loop
 			}
-		}
-	}
+		} // IF RECORDS EXIST
+	}// IF NODES EXIST
 
-}
+} // LIST_RECORDS 
 
 /****************************************************
 * The listAllRecords() function searches through    *
@@ -574,7 +592,7 @@ void VendorList::listAllRecords()
 		// Advance to next index node
 		currIndex = currIndex->nextIndex;
 	}
-}
+} // LIST_ALL_RECORDS
 
 /***************************************************
 * The printHeaders() function is a helper function *
@@ -602,7 +620,7 @@ void VendorList::printHeaders()
 	std::cout << std::setfill(' ');
 }
 
-// Overloaded  output operator
+// Overloaded  output operator for Vendor objects
 ostream& operator<<(ostream& out, const Vendor &vRecord)
 {
 	out << std::setw(11) << left << vRecord.id;
@@ -611,4 +629,4 @@ ostream& operator<<(ostream& out, const Vendor &vRecord)
 	out << std::setw(11) << left << vRecord.state; 
 	out << std::setw(7)  << left << vRecord.zipCode;
 	return out;
-}
+} // PRINT_HEADERS

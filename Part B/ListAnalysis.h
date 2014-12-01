@@ -14,7 +14,7 @@
  *		   files: SortedLinkList.h	// Base class
  *
  *       Code by: Craig Medlin
- * Last Modified: Nov. 27, 2014
+ * Last Modified: Nov. 30, 2014
  *
  *        Course: COSC 1437-P70 — M 6-9:45 p.m.
  *     Professor: Charles Braun
@@ -45,29 +45,37 @@ public:
 	/* Member functions */
 	int getCount()				// Returns number of nodes
 		{ return count; }
+	
+	T getHighValue();	// Returns highest value
+	 T getLowValue();	// Returns lowest value
+	  T getAverage();   // Calculates and returns average value
+	   T getMedian();	// Locates and returns median value
+	     T getMode();	// Determines most frequent occuring value and returns it
 
-	T getHighValue();
-	T getLowValue();
-	T getAverage();
-	T getMedian();
-	T getMode();
+		void newNode(T);	// Adds a new node
+	 void removeNode(T);	// Removes a node containing a specific value
+	 void deleteFront();	// Deletes the first node in the list
+	  void deleteBack();	// Deletes the last node in the list
+	 void addToFront(T);	// Inserts a node at the front of the list
+      void addToBack(T);	// Inserts a node at the back of the list
 
-	void newNode(T);
-	void removeNode(T);
-	void deleteFront();
-	void deleteBack();
-	void addToFront(T);
-	void addToBack(T);
-
+	// Using the inherited printList function
 	using SortedLinkList<T>::printList;
 };
 
+/* DESTRUCTOR */
 template <class T>
 ListAnalysis<T>::~ListAnalysis()
 {
 
 }
 
+/***************************************
+* The getHighValue() function locates  *
+* the highest valued item in a sorted  *
+* list (the final node) and returns	   *
+* its value.						   *
+***************************************/
 template <class T>
 T ListAnalysis<T>::getHighValue()
 {
@@ -87,12 +95,26 @@ T ListAnalysis<T>::getHighValue()
 	return nodePtr->value;
 }
 
+/***************************************
+* The getLowValue() function locates   *
+* the lowest valued item in a sorted   *
+* list (the first node) and returns	   *
+* its value.						   *
+***************************************/
+
 template <class T>
 T ListAnalysis<T>::getLowValue()
 {
 	// Return low value
 	return head->value;
 }
+
+/***************************************
+* The getAverage() function calculates *
+* the average of all the values by	   *
+* summing them and then dividing that  *
+* sum by the total number of elements. *
+***************************************/
 
 template <class T>
 T ListAnalysis<T>::getAverage()
@@ -118,6 +140,13 @@ T ListAnalysis<T>::getAverage()
 	return sum / count;
 }
 
+/***************************************
+* The getMedian() function locates the *
+* median by dividing the total number  *
+* of elements by two and returning	   *
+* the value at that position.		   *
+***************************************/
+
 template <class T>
 T ListAnalysis<T>::getMedian()
 {
@@ -137,6 +166,18 @@ T ListAnalysis<T>::getMedian()
 	// Return median value
 	return nodePtr->value;
 }
+
+/***************************************
+* The getMode() function traverses a   *
+* sorted list and counts the number of *
+* times each value occurs. It returns  *
+* the value that occurs the most.	   *
+*									   *
+* NOTE: In the event of a tie, the	   *
+* function wil return the most recent  *
+* value which occured the greatest	   *
+* number of times.
+***************************************/
 
 template <class T>
 T ListAnalysis<T>::getMode()
@@ -187,6 +228,12 @@ T ListAnalysis<T>::getMode()
 	return most->value;
 }
 
+/***************************************
+* The newNode() function accepts a T   *
+* value and inserts it into the list   *
+* as a new node.					   *
+***************************************/
+
 template <class T>
 void ListAnalysis<T>::newNode(T nValue)
 {
@@ -196,6 +243,13 @@ void ListAnalysis<T>::newNode(T nValue)
 	// Increment count variable
 	count++;
 }
+
+/***************************************
+* The removeNode() function accepts a  *
+* T value and searches for it in the   *
+* existing list. If the value exists,  *
+* it is removed from the list.		   *
+***************************************/
 
 template <class T>
 void ListAnalysis<T>::removeNode(T nValue)
@@ -207,6 +261,11 @@ void ListAnalysis<T>::removeNode(T nValue)
 	count--;
 }
 
+/***************************************
+* The deleteFront() function removes   *
+* the first node in the linked list.   *
+***************************************/
+
 template <class T>
 void ListAnalysis<T>::deleteFront()
 {
@@ -216,6 +275,11 @@ void ListAnalysis<T>::deleteFront()
 	// Decrement count variable
 	count--;
 }
+
+/***************************************
+* The deleteBack() function removes    *
+* the first node in the linked list.   *
+***************************************/
 
 template <class T>
 void ListAnalysis<T>::deleteBack()
@@ -227,6 +291,11 @@ void ListAnalysis<T>::deleteBack()
 	count--;
 }
 
+/***************************************
+* The addToFront() function accepts a  *
+* T value and adds it to the list as   *
+* a new head node.					   *
+***************************************/
 
 template <class T>
 void ListAnalysis<T>::addToFront(T nValue)
@@ -237,6 +306,12 @@ void ListAnalysis<T>::addToFront(T nValue)
 	// Increment count variable
 	count++;
 }
+
+/***************************************
+* The addToBack() function accepts a   *
+* T value and adds it to the list as   *
+* a new node at the end of the list.   *
+***************************************/
 
 template <class T>
 void ListAnalysis<T>::addToBack(T nValue)

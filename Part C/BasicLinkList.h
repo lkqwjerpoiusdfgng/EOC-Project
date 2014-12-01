@@ -1,5 +1,5 @@
 /***************************************************
-********** EOC - Part B: Basic Link List **********
+********** EOC - Part C: Basic Link List **********
 ***************************************************
 *
 *      Filename: BasicLinkList.h
@@ -13,7 +13,7 @@
 *		   files:
 *
 *       Code by: Craig Medlin
-* Last Modified: Nov. 27, 2014
+* Last Modified: Nov. 30, 2014
 *
 *        Course: COSC 1437-P70 — M 6-9:45 p.m.
 *     Professor: Charles Braun
@@ -23,7 +23,6 @@
 #define	BASICLINKLIST_H
 
 #include <iostream>		// For output operations (cout)
-
 #include "ListNode.h"
 
 /********************************************************

@@ -13,7 +13,7 @@
  *		   files: Rollup.h		\\ Rollup class
  *
  *       Code by: Craig Medlin
- * Last Modified: Nov. 28, 2014
+ * Last Modified: Nov. 30, 2014
  *
  *        Course: COSC 1437-P70 — M 6-9:45 p.m.
  *     Professor: Charles Braun
@@ -104,6 +104,12 @@ void showMenu()
 	} while (menuSelection != 3);
 }
 
+/****************************************
+* The testRollups() function demos      *
+* the iterative and recursive summing   *
+* functions for an integer linked list  *
+* with two data members (value, sum).   *
+****************************************/
 void testRollups()
 {
 	// Seed random number generator
